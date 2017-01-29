@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+ <link rel="stylesheet" type="text/css" href="mystyles.css">
+    <title></title>
+</head>
+<body>
+
+<body>
+
+
+
+
+<div class="container-fluid " >
+  <!-- start navbar-->
+ <div class="navbar text-center">
+   <h1 >
+  <span class="fa-2x">Local Weather App</span>
+   </h1>
+
+   <h3>Powered By  Open Weather API</h3>
+    <div id="icon"></div>
+
+ <div id="buttonbox">
+    <a class="btn btn-default" id="farenheit">Farenheit</a>
+<a class="btn btn-default" id="celsius">Celsius</a>
+
+</div>
+  </div>
+  <!-- end of navbar-->
+
+
+  <div class="container-fluid col-xs-12  text-center location">
+  </div>
+
+  <div class="row">
+
+         <div class=" col-xs-4 text-center mintemperature ">
+  </div>
+  <div class=" col-xs-4  text-center temperature ">
+  </div>
+   <div class=" col-xs-4  text-center maxtemperature ">
+  </div>s
+
+
+  </div>
+  <div class="container-fluid col-xs-12  text-center windspeed">
+  </div>
+
+
+
+   <!-- start footer-->
+     <div class="container-fluid col-md-12  text-center footer" id="contact">
+
+        <H1> By AKhil <i class="fa fa-smile-o"></i>
+</H1>
+  <div id ="midicons">
+         <a href="https://www.facebook.com/profile.php?id=100008378649084"target="_blank"<i class="fa fa-facebook-official fa-2x"></i>
+</a>
+
+  <a href="https://github.com/akhil451" target="blank" <i class ="fa fa-github-square fa-2x"></i>
+
+</a>
+
+<a href="https://www.linkedin.com/in/akhil-prasannan-b704a4102" target="blank" <i class ="fa fa-linkedin-square fa-2x"></i>
+
+</a>
+<a href="" target="_blank"><i class="fa fa-twitter-square fa-2x"></i></a>
+</div>
+
+  <!-- end footer-->
+  </div><!-- end of container containg all divs-->
+
+<script
+  src="https://code.jquery.com/jquery-3.1.1.min.js"
+  integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+  crossorigin="anonymous">
+
+  </script>
+<script type="text/javascript">
+    var weather;
+    var city;
+
+    $.getJSON('https://geoip-db.com/json/geoip.php?jsonp=?',function(location)
+ {
+
+             //$(".location").text(location.city+','+location.country_name);
+           console.log(location.city+','+location.country_name);
+                 $(".location").html(location.city+','+location.country_name);
+                 var unit ="&units=metric";
+                  if( $("#farenheit").click()){
+
+                        unit="&units=imperial";
+                        getWeather(location.city,unit);
+                  };
+                  if( $("#celsius").click()){
+                        unit="&units=metric";
+                        getWeather(location.city,unit);
+                  };
+                 getWeather(location.city,unit);
+},'jsonp');
+    function getWeather(city,unit){
+
+        $(document).ready(function(){
+console.log(unit);
+        $.getJSON("http://api.openweathermap.org/data/2.5/weather?q="+city+"&appid=bf2c0eada740a5163b8ea12db3cc70ee"+unit,function getdata(data){
+        weather=data;
+        console.log(city);
+        var humidity=weather.main.humidity+"%";
+        var temperature=weather.main.temp;
+        var maxtemp = weather.main.temp_max;
+        var mintemp=weather.main.temp_min;
+        var windspeed =weather.wind.speed +" miles/hour";
+        var source ="http://openweathermap.org/img/w/"+weather.weather[0].icon+".png";
+        console.log("temperature="+temperature);
+        console.log("humidity ="+ humidity);
+        console.log("windspeed"+windspeed);
+        $("#icon").html("<img src='"+source+"'>");
+        $(".temperature").html("Current Temperature:"+temperature);
+        $(".maxtemperature").html("Maximum Temperature:"+maxtemp);
+                $(".mintemperature").html("Minimum Temperature:"+mintemp);
+
+
+   $(".windspeed").html("Windpeed:"+windspeed);
+    });
+    });
+    }
+
+
+</script>
+</body>
+</html>
