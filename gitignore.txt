@@ -1,0 +1,2 @@
+npm-debug.log
+openweather-api.zip
