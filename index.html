@@ -7,13 +7,8 @@
     <title></title>
 </head>
 <body>
-
-<body>
-
-
-
-
-<div class="container-fluid " >
+<div class="container-fluid" id="outercontainer">
+  <div class="container-fluid " >
   <!-- start navbar-->
  <div class="navbar text-center">
    <h1 >
@@ -30,12 +25,15 @@
 </div>
   </div>
   <!-- end of navbar-->
+<div class="container-fluid col-xs-12  text-center">
+    <p>IF THE CITY SHOWN BELOW IS NOT YOUR DEFAULT CITY , ENTER YOUR CITY IN THE FIELD  BELOW</p>
+      CITY:<input id="city"><button class="btn btn-default" id="submit">SUBMIT</button>
+</div>
 
-
-  <div class="container-fluid col-xs-12  text-center location">
+  <div class="container-fluid col-xs-12  text-center location fontchange">
   </div>
 
-  <div class="row">
+  <div class="row fontchange">
 
          <div class=" col-xs-4 text-center mintemperature ">
   </div>
@@ -46,7 +44,7 @@
 
 
   </div>
-  <div class="container-fluid col-xs-12  text-center windspeed">
+  <div class="container-fluid col-xs-12  text-center windspeed fontchange">
   </div>
 
 
@@ -71,7 +69,15 @@
 </div>
 
   <!-- end footer-->
-  </div><!-- end of container containg all divs-->
+
+
+  <!-- div containing all other divs-->
+</div>
+
+
+
+
+
 
 <script
   src="https://code.jquery.com/jquery-3.1.1.min.js"
@@ -80,43 +86,56 @@
 
   </script>
 <script type="text/javascript">
-    var weather;
+   windowHeight = $(window).innerHeight();
+     $("#outercontainer").css("height",windowHeight);
+   $(document).ready(function(){
+       var weather;
     var city;
-
+ var unit ="&units=metric" ;
     $.getJSON('https://geoip-db.com/json/geoip.php?jsonp=?',function(location)
  {
 
              //$(".location").text(location.city+','+location.country_name);
            console.log(location.city+','+location.country_name);
-                 $(".location").html(location.city+','+location.country_name);
-                 var unit ="&units=metric";
-                  if( $("#farenheit").click()){
 
+                $("#submit").click(function(){
+                  var temp=$("#city").val();
+                  console.log(temp);
+                  city=temp;
+                  getWeather(temp,unit);
+                });
+                  $("#farenheit").click(function(){
+
+//window.location.reload(true);
                         unit="&units=imperial";
                         getWeather(location.city,unit);
-                  };
-                  if( $("#celsius").click()){
+                  }
+                  );
+                  $("#celsius").click(function()
+                    {
+//window.location.reload(true);
                         unit="&units=metric";
                         getWeather(location.city,unit);
-                  };
+                  });
                  getWeather(location.city,unit);
 },'jsonp');
     function getWeather(city,unit){
-
-        $(document).ready(function(){
-console.log(unit);
-        $.getJSON("http://api.openweathermap.org/data/2.5/weather?q="+city+"&appid=bf2c0eada740a5163b8ea12db3cc70ee"+unit,function getdata(data){
+//console.log(unit);
+var url="http://api.openweathermap.org/data/2.5/weather?q="+city+"&appid=bf2c0eada740a5163b8ea12db3cc70ee"+unit;
+//console.log(url);
+ $(".location").html(city);
+        $.getJSON(url,function getdata(data){
         weather=data;
-        console.log(city);
+  //      console.log(city);
         var humidity=weather.main.humidity+"%";
         var temperature=weather.main.temp;
         var maxtemp = weather.main.temp_max;
         var mintemp=weather.main.temp_min;
         var windspeed =weather.wind.speed +" miles/hour";
         var source ="http://openweathermap.org/img/w/"+weather.weather[0].icon+".png";
-        console.log("temperature="+temperature);
-        console.log("humidity ="+ humidity);
-        console.log("windspeed"+windspeed);
+    //    console.log("temperature="+temperature);
+      //  console.log("humidity ="+ humidity);
+        //console.log("windspeed"+windspeed);
         $("#icon").html("<img src='"+source+"'>");
         $(".temperature").html("Current Temperature:"+temperature);
         $(".maxtemperature").html("Maximum Temperature:"+maxtemp);
@@ -125,8 +144,9 @@ console.log(unit);
 
    $(".windspeed").html("Windpeed:"+windspeed);
     });
-    });
+
     }
+   });
 
 
 </script>

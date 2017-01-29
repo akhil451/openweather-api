@@ -1,0 +1,40 @@
+body{
+//background-color:#8966CC;
+background-size: cover;
+}
+
+
+.fa{
+  color:black;
+}
+
+
+.tempicon{
+
+}
+.fontchange{
+    color: black;
+margin:1.75em;
+text-align:center;
+    height:auto;
+    font-weight:bold;
+}
+/*footer code */
+footer{
+
+}
+
+#contact{
+margin-top: 5%;
+   bottom:4%;
+}
+#code{
+    font-size:25px;
+font-weight: bolder;
+}
+.footer>h1{
+  font-size:19px;
+   margin-bottom:2px;
+
+}
+/*footer code */
